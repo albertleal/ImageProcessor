@@ -6,3 +6,11 @@ import UIKit
 let image = UIImage(named: "sample")
 
 // Process the image!
+let rgbaImage = RGBAImage(image: image!)
+
+
+let processedImage = rgbaImage?.toUIImage()
+
+
+
+
