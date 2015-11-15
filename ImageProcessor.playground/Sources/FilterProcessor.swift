@@ -21,7 +21,6 @@ public protocol FilterProtocol {
     func transformPixel(pixel: Pixel) -> Pixel
 }
 
-
 public class SetColorFilter : FilterProtocol {
     let selectedColor: FilterColor
     let colorValue: UInt8
@@ -69,5 +68,46 @@ public class ChessFilter : FilterProtocol {
         }
         pixelNumber++
         return pixel
+    }
+}
+
+public class SuperChessFilter : FilterProtocol {
+    var alphaValue: Double
+    var whiteSquare: Bool
+    public init(alphaValue: UInt8){
+        self.alphaValue = SuperChessFilter.map(Double(alphaValue), start1: 0, stop1: 255, start2: 0, stop2: 1)
+        self.whiteSquare = true
+    }
+    
+    public func transformPixel(var pixel: Pixel) -> Pixel {
+        if whiteSquare {
+            pixel.red = mergeColor(pixel.red, color: 255)
+            pixel.green = mergeColor(pixel.green, color: 255)
+            pixel.blue = mergeColor(pixel.blue, color: 255)
+        } else {
+            pixel.red = mergeColor(pixel.red, color: 0)
+            pixel.green = mergeColor(pixel.green, color: 0)
+            pixel.blue = mergeColor(pixel.blue, color: 0)
+        }
+        whiteSquare = !whiteSquare
+        return pixel
+    }
+    
+    func mergeColor(bg: UInt8, color: UInt8) -> UInt8 {
+        return UInt8((1.0 - alphaValue) * Double(bg) + alphaValue * Double(color))
+    }
+    
+    class func map(value: Double, start1: Double, stop1: Double, start2: Double, stop2: Double) -> Double {
+        var newValue: Double
+        let oldRange = stop1 - start1
+        
+        if oldRange == 0 {
+            newValue = start2
+        } else {
+            let newRange = (stop2 - start1)
+            newValue = (((value - start1) * newRange) / oldRange) + start2
+        }
+        
+        return newValue
     }
 }
