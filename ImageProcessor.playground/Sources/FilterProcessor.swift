@@ -21,6 +21,7 @@ public protocol FilterProtocol {
     func transformPixel(pixel: Pixel) -> Pixel
 }
 
+/// A filter to set the value of a selected color.
 public class SetColorFilter : FilterProtocol {
     let selectedColor: FilterColor
     let colorValue: UInt8
@@ -44,12 +45,14 @@ public class SetColorFilter : FilterProtocol {
     }
 }
 
+/// A filter to remove a selected color.
 public class RemoveColorFilter : SetColorFilter {
     public init(selectedColor: FilterColor) {
         super.init(selectedColor: selectedColor, colorValue: 0)
     }
 }
 
+/// A filter to replace the current image by a chessboard.
 public class ChessFilter : FilterProtocol {
     var pixelNumber: Int
     public init(){
@@ -71,6 +74,7 @@ public class ChessFilter : FilterProtocol {
     }
 }
 
+/// A filter to add a chessboard with alpha.
 public class SuperChessFilter : FilterProtocol {
     var alphaValue: Double
     var whiteSquare: Bool
@@ -97,6 +101,11 @@ public class SuperChessFilter : FilterProtocol {
         return UInt8((1.0 - alphaValue) * Double(bg) + alphaValue * Double(color))
     }
     
+
+    /**
+        Re-maps a number from one range to another.
+        - should be moved in another class.
+    */
     class func map(value: Double, start1: Double, stop1: Double, start2: Double, stop2: Double) -> Double {
         var newValue: Double
         let oldRange = stop1 - start1

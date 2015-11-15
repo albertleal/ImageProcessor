@@ -11,6 +11,7 @@
 
 import Foundation
 
+/// A basic image processor with a filter collction.
 public class RGBAImageProcessor {
     let rgbaImage: RGBAImage
     var filters: [FilterProtocol]
@@ -20,18 +21,23 @@ public class RGBAImageProcessor {
         filters =  [FilterProtocol]()
     }
     
+    /// filters management function
     public func addFilter(filter:FilterProtocol) {
         filters.append(filter)
     }
     
+    /// filters management function
     public func removeFilter(filterIndex: Int) {
+        // TODO: test before removing
         filters.removeAtIndex(filterIndex)
     }
     
+    /// filters management function
     public func removeAllFilters() {
         filters.removeAll()
     }
     
+    /// For each pixel of the image, all the current filters are applied
     public func process() {
         for y in 0..<rgbaImage.height {
             for x in 0..<rgbaImage.width {
