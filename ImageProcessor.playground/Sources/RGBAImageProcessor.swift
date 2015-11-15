@@ -4,7 +4,7 @@
 ** by University of Toronto.
 **
 ** RGBAImageProcessor.swift
-** <very brief file description>
+** Contains the image processor
 **
 ** Author: Antoine Induni
 ** -------------------------------------------------------------------------*/
@@ -24,6 +24,14 @@ public class RGBAImageProcessor {
         filters.append(filter)
     }
     
+    public func removeFilter(filterIndex: Int) {
+        filters.removeAtIndex(filterIndex)
+    }
+    
+    public func removeAllFilters() {
+        filters.removeAll()
+    }
+    
     public func process() {
         for y in 0..<rgbaImage.height {
             for x in 0..<rgbaImage.width {
@@ -35,22 +43,5 @@ public class RGBAImageProcessor {
                 rgbaImage.pixels[index] = pixel
             }
         }
-    }
-}
-
-public protocol FilterProtocol {
-    func transformPixel(pixel: Pixel) -> Pixel
-}
-
-public class SimpleFilter : FilterProtocol {
-    
-    public init() {
-    }
-    
-    public func transformPixel(var pixel: Pixel) -> Pixel {
-        pixel.red = 0
-        pixel.red = 0
-        pixel.green = 0
-        return pixel
     }
 }

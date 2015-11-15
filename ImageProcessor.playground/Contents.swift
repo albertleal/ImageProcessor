@@ -18,11 +18,23 @@ let rgbaImage = RGBAImage(image: image)!
 
 let imageProcessor = RGBAImageProcessor(rgbaImage: rgbaImage)
 
-imageProcessor.addFilter(SimpleFilter())
+imageProcessor.addFilter(RemoveColorFilter(selectedColor: FilterColor.Blue))
 
 imageProcessor.process()
 
-let newImage = rgbaImage.toUIImage()
+var newImage = rgbaImage.toUIImage()
+
+imageProcessor.addFilter(RemoveColorFilter(selectedColor: FilterColor.Red))
+
+imageProcessor.addFilter(SetColorFilter(selectedColor: FilterColor.Red, colorValue: 255))
+
+imageProcessor.process()
+
+newImage = rgbaImage.toUIImage()
+imageProcessor.removeAllFilters()
+imageProcessor.addFilter(ChessFilter())
+imageProcessor.process()
+newImage = rgbaImage.toUIImage()
 
 
 
