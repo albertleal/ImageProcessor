@@ -30,7 +30,7 @@ public class RGBAImageProcessor {
                 let index = y * rgbaImage.width + x
                 var pixel = rgbaImage.pixels[index]
                 for filter in filters {
-                    filter.transformPixel(pixel)
+                    pixel = filter.transformPixel(pixel)
                 }
                 rgbaImage.pixels[index] = pixel
             }
@@ -39,7 +39,7 @@ public class RGBAImageProcessor {
 }
 
 public protocol FilterProtocol {
-    func transformPixel(pixel: Pixel)
+    func transformPixel(pixel: Pixel) -> Pixel
 }
 
 public class SimpleFilter : FilterProtocol {
@@ -47,10 +47,10 @@ public class SimpleFilter : FilterProtocol {
     public init() {
     }
     
-    public func transformPixel(var pixel: Pixel) {
+    public func transformPixel(var pixel: Pixel) -> Pixel {
         pixel.red = 0
         pixel.red = 0
         pixel.green = 0
-        NSLog("yo");
+        return pixel
     }
 }
